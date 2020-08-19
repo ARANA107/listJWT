@@ -1,0 +1,3 @@
+[submodule "shoppingList-JWT"]
+	path = shoppingList-JWT
+	url = https://github.com/ARANA107/shoppingList-JWT
