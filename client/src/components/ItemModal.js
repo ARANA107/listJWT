@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   Button,
   Modal,
@@ -16,6 +16,8 @@ import {addItem} from '../actions/itemAction';
 function ItemModal() {
     const [modal, setModal] = useState(false);
     const [name, setName] = useState('');
+    const isAuthenticated = useSelector(state=>state.auth.isAuthenticated);
+
     const dispatch = useDispatch();
 
     const toggle = () => {
@@ -29,7 +31,7 @@ function ItemModal() {
        }
 
     dispatch(addItem(nameObj));
-setModal(!modal);
+    setModal(!modal);
     }
 
     const handleChange = (e) =>{
@@ -38,7 +40,9 @@ setModal(!modal);
 
     return (
         <div>
-            <Button color="dark" style={{margin:"2rem"}} onClick={()=>toggle()}>Add Item</Button>
+            {isAuthenticated? 
+            <Button color="dark" style={{margin:"2rem"}} onClick={()=>toggle()}>Add Item</Button>:
+            <h4 className="mb-3 ml-4">Please log in to manage items</h4>}
             <Modal isOpen={modal} toggle={toggle}>
             <ModalHeader toggle={toggle}>Add to Shopping List</ModalHeader>
             <ModalBody>

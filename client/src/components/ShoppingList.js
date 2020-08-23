@@ -8,14 +8,13 @@ import { getItems, deleteItem } from './../actions/itemAction';
 function ShoppingList() {
     const dispatch = useDispatch();
     const items = useSelector(state => state.item.items)
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
-    const useFetching = (getItems) => {
+
         useEffect(() => {
             dispatch(getItems());
-        })
-    }
+        },[dispatch])
 
-    useFetching(getItems);
 
     const deleteIt = (id) => {
         dispatch(deleteItem(id));
@@ -28,13 +27,14 @@ function ShoppingList() {
                     {items.map(({ _id, name }) => (
                         <CSSTransition key={_id} timeout={500} classNames="fade">
                             <ListGroupItem>
-                                <Button 
+                                {isAuthenticated?  <Button 
                                 className="remove-btn" 
                                 color="danger"
                                 size="sm"
                                 onClick={()=>{deleteIt(_id)}}>
                                 &times;
-                                </Button>
+                                </Button>:null}
+                               
                                 {name}
                             </ListGroupItem>
 
